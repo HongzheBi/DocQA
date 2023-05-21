@@ -1,0 +1,31 @@
+{
+    "alpaca_gpt4_zh": {
+        "file_name": "alpaca_gpt4_data_zh.json",
+        "file_sha1": "3eaa3bda364ccdd59925d7448a698256c31ef845"
+    },
+    "belle_2m": {
+        "hf_hub_url": "BelleGroup/train_2M_CN"
+    },
+
+    "alpaca_cot": {
+        "hf_hub_url": "QingyiSi/Alpaca-CoT"
+    },
+    "webqa": {
+        "hf_hub_url": "suolyer/webqa",
+        "columns": {
+            "prompt": "input",
+            "query": "",
+            "response": "output",
+            "history": ""
+        }
+    },
+    "dureader-2.0": {
+        "hf_hub_url": "HongzheBi/DuReader2.0",
+        "columns": {
+            "prompt": "documents",
+            "query": "question",
+            "response": "answers",
+            "history": ""
+        }
+    }
+}

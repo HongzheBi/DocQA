@@ -1,0 +1,11 @@
+langchain
+PyPDF2
+chromadb
+InstructorEmbedding
+transformers
+cpm_kernels
+sentence_transformers
+peft
+tqdm
+datasets
+gradio
