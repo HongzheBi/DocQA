@@ -40,9 +40,9 @@ initialize()
 
 def chat(query, choice, upload, vector_store_path):
     if choice == "上传文件/文件夹":
-        retriever = doc_qa.load_VectorDB(os.path.join("data/vector_store",vector_store_path))
-    else:
         retriever = doc_qa.init_knowledge_vector_store(upload) 
+    else:
+        retriever = doc_qa.load_VectorDB(os.path.join("data/vector_store",vector_store_path))
     docs = retriever.get_relevant_documents(query)
     prompt = doc_qa.generate_prompt(query, docs)
     response = doc_qa.llm._call(prompt=prompt)
