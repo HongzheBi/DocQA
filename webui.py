@@ -76,7 +76,8 @@ def visible(choice):
 source_choicer = gr.components.Radio(choices=["上传文件/文件夹", "使用已有知识库"],  
                                      label="选择知识库来源", interactive=True)
 
-filepath =  gr.components.File(type="file", label="上传文件/文件夹", visible=True) 
+filepath =  gr.File(file_types=['.txt', '.md', '.docx', '.pdf'],
+                                            file_count="multiple", label="上传文件/文件夹", visible=True) 
 
 query = gr.components.Textbox(lines=1, label="输入查询")
 
