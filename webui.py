@@ -40,30 +40,30 @@ initialize()
 
 def chat(query, choice, upload, vector_store_path):
     if choice == "上传文件/文件夹":
-        retriever = doc_qa.init_knowledge_vector_store(upload.url) 
+        retriever = doc_qa.init_knowledge_vector_store(upload) 
     else:
-        retriever = doc_qa.load_VectorDB(os.path.join("data/vector_store",vector_store_path.url))
+        retriever = doc_qa.load_VectorDB(vector_store_path)
     docs = retriever.get_relevant_documents(query)
     prompt = doc_qa.generate_prompt(query, docs)
     response = doc_qa.llm._call(prompt=prompt)
     return response
 
 # 初始化时不显示这两个组件
-upload = gr.components.File(type="file", label="上传文件/文件夹", show_input=False) 
-vector_store_path = gr.components.File(type="file", label="选择知识库文件夹", show_input=False) 
+upload = gr.components.File(type="file", label="上传文件/文件夹", visible=False) 
+vector_store_path = gr.components.File(type="file", label="选择知识库文件夹", visible=False) 
 
 # 定义显示upload组件的方法  
 def show_upload():   
-    upload.show_input = True
-    vector_store_path.show_input = False
+    upload.visible = True
+    vector_store_path.visible = False
     
 # 定义显示load_embedding组件的方法  
 def show_load_embedding():
-    upload.show_input = False
-    vector_store_path.show_input = True  
+    upload.visible = False
+    vector_store_path.visible = True  
 
 # 根据选择调用对应方法  
-def show_inputs(choice): 
+def visible(choice): 
     if choice == "上传文件/文件夹":
         show_upload()
     else:
@@ -71,7 +71,7 @@ def show_inputs(choice):
         
 source_choicer = gr.components.Radio(choices=["上传文件/文件夹", "使用已有知识库文件/文件夹"],  
                                      label="选择知识库来源",
-                                     onchange=show_inputs)    
+                                     onchange=visible)    
 
 query = gr.components.Textbox(lines=1, label="输入查询")
 
