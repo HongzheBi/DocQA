@@ -25,11 +25,17 @@ def get_answer(query, vs_path, history, mode):
         retriever = doc_qa.load_VectorDB(vs_path)
         docs = retriever.get_relevant_documents(query)
         prompt = doc_qa.generate_prompt(query, docs)
-        response = doc_qa.llm._call(prompt=prompt)
-        return history + [[None, response]], ""
+        for response in doc_qa.llm._call(prompt=prompt):
+            source = "\n\n"
+            source += "".join([
+                        f"""<details> <summary>出处 [{i + 1}] <a href="{doc.metadata["source"]}" target="_blank">{doc.metadata["source"]}</a> </summary>\n"""
+                        f"""{doc.page_content}\n"""
+                        f"""</details>\n"""
+                        for i, doc in enumerate(docs)])
+            yield history + [[query, response+source]], ""
     else:
-        response = doc_qa.llm._call(prompt=query)
-        return history + [[None, response]], ""
+        for response in doc_qa.llm._call(prompt=prompt):
+            yield history + [[query, response]], ""
 
 
 def get_vector_store(vs_id, files, sentence_size, history):

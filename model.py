@@ -25,16 +25,16 @@ class ChatGLM_6B_PEFT(LLM):
     def _llm_type(self) -> str:
         return "CHatGLM-6B-PEFT"
     
-    def _call(self, prompt:str, streaming:bool = False) -> str:
-        response, _ = self.model.chat(
-            self.tokenizer,
-            prompt,
-            max_length = self.max_token,
-            temperature = self.temperature,
-            top_p = self.top_p
-        )
-        torch_gc()
-        return response
+    def _call(self, prompt:str, streaming:bool = True) -> str:
+        for inum, (stream_response, _) in enumerate(self.model.stream_chat(
+                    self.tokenizer,
+                    prompt,
+                    max_length=self.max_token,
+                    temperature=self.temperature,
+                    top_p=self.top_p,
+            )):
+            torch_gc()
+            yield stream_response  
     
     def load_model(
             self,

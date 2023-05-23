@@ -47,7 +47,7 @@ LLM_PTUNING_V2_PATH = os.getcwd() + '/finetune/ptuning/'
 # LLM running device
 LLM_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-VS_ROOT_PATH = os.path.join(os.path.dirname(os.path.abspath('__file__')), "vector_store")
+VS_ROOT_PATH = os.path.join(os.path.dirname(os.path.abspath('__file__')), "data/vector_store")
 #VS_ROOT_PATH = "vector_store"
 
 UPLOAD_ROOT_PATH = os.path.join(os.path.dirname(os.path.abspath('__file__')), "data")
