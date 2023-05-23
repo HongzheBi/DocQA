@@ -69,7 +69,7 @@ query = gr.components.Textbox(lines=1, label="输入查询")
 
 outputs = gr.outputs.Textbox(label="回复")  
 
-gr.Interface(fn=chat, inputs=[query, retriever],
+gr.Interface(fn=chat, inputs=[query, source_choicer, filepath, retriever],
       outputs=outputs, title="基于本地知识库检索和LLM轻量化微调的问答系统", style=style).queue(concurrency_count=3).launch(  
             server_name='0.0.0.0',                         
             server_port=7860,
