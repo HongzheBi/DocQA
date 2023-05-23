@@ -15,10 +15,11 @@ embedding_model_dict = {
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
     "text2vec-base": "shibing624/text2vec-base-chinese",
     "text2vec": "GanymedeNil/text2vec-large-chinese",
+    "our_model" : "HongzheBi/MPNet-finetune"
 }
 
 # Embedding model name
-EMBEDDING_MODEL = "bert-base-chinese"
+EMBEDDING_MODEL = "our_model"
 
 # Embedding running device
 EMBEDDING_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
