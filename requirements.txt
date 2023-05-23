@@ -8,4 +8,4 @@ sentence_transformers
 peft
 tqdm
 datasets
-gradio
+gradio==3.28.3

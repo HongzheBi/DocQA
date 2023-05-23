@@ -99,6 +99,10 @@ block_css = """.importantButton {
     background: linear-gradient(45deg, #ff00e0,#8500ff, #6e00ff) !important;
     border: none !important;
 }"""
+default_theme_args = dict(
+    font=["Source Sans Pro", 'ui-sans-serif', 'system-ui', 'sans-serif'],
+    font_mono=['IBM Plex Mono', 'ui-monospace', 'Consolas', 'monospace'],
+)
 webui_title = """
 # 基于本地知识库检索和 LLM 轻量化微调的问答系统
 """
@@ -109,7 +113,7 @@ init_message = f"""欢迎使用 DocQA Web UI！
 """
 
 
-with gr.Blocks(css=block_css) as demo:
+with gr.Blocks(css=block_css, theme=gr.themes.Default(**default_theme_args)) as demo:
     vs_path, vs_list = gr.State(
         os.path.join(VS_ROOT_PATH, vs_list[0]) if len(vs_list) > 1 else ""), gr.State(vs_list)
     gr.Markdown(webui_title)
