@@ -3,13 +3,12 @@ from langchain.vectorstores import Chroma
 from langchain.docstore.document import Document
 from datasets import load_dataset
 import PyPDF2
-import datetime
-import pickle
 import re
 import os
 from tqdm import tqdm
 from model import ChatGLM_6B_PEFT, torch_gc
 from config.model_config import *
+
 
 # 加载文件
 def load_file(file_name):
@@ -79,6 +78,7 @@ class DocQA:
         self.llm = ChatGLM_6B_PEFT()
         self.llm.load_model(model_name_or_path=llm_model_dict[LLM_MODEL], use_lora=use_lora, use_ptuning_v2=USE_PTUNING_V2)
         self.SBert = SentenceTransformerEmbeddings(model_name=embedding_model_dict[embedding_model], model_kwargs={'device':embedding_device})
+        self.topk = VECTOR_SEARCH_TOP_K
 
     # 对文件embdding并持久化
     def init_knowledge_vector_store(self, filepath, vector_store_path=None):
@@ -116,29 +116,37 @@ class DocQA:
                   except Exception as e:
                       logger.error(e)
                       failed_files.append(file)
-
               if len(failed_files) > 0:
                   logger.info("以下文件未能成功加载：")
                   for file in failed_files:
                       logger.info(f"{file}\n")
+        else:
+            docs = []
+            for file in filepath:
+                try:
+                    doc = load_file(file)
+                    docs += split_paragraph(doc, vector_store_path)
+                    logger.info(f"{file} 已成功加载")
+                    loaded_files.append(file)
+                except Exception as e:
+                    logger.error(e)
+                    logger.info(f"{file} 未能成功加载")
         if len(docs) > 0:
             logger.info("文件加载完毕，正在生成向量库")
             vectordb = Chroma.from_documents(documents=docs, embedding=self.SBert, persist_directory=vector_store_path)
             torch_gc()
             if PERSIST_EMBEDDING == True:
               vectordb.persist()
-            retriever = vectordb.as_retriever(search_kwargs={"k": 5})
             vectordb = None
-            return retriever
-            #return vector_store_path, loaded_files
+            return vector_store_path, loaded_files
         else:
             logger.info("文件均未成功加载，请检查依赖包或替换为其他文件再次上传。")
-            return None
+            return None, loaded_files
 
     # 加载向量数据库
     def load_VectorDB(self, vector_store_path):
       vectordb = Chroma(persist_directory=vector_store_path, embedding_function=self.SBert)
-      retriever = vectordb.as_retriever(search_kwargs={"k": 5})
+      retriever = vectordb.as_retriever(search_kwargs={"k": self.topk})
       return retriever       
     
     #根据Prompt模板生成Prompt

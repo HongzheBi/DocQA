@@ -35,7 +35,6 @@ class ChatGLM_6B_PEFT(LLM):
         )
         torch_gc()
         return response
-        torch_gc()
     
     def load_model(
             self,
@@ -64,9 +63,6 @@ class ChatGLM_6B_PEFT(LLM):
         if LLM_LORA_PATH and use_lora:
           self.model = PeftModel.from_pretrained(self.model, LLM_LORA_PATH).half().to(llm_device)
           print("LoRA模型权重加载成功")
-
-        #self.model.half().to(llm_device)
-        #self.model = self.model.float().to(llm_device)
 
         if use_ptuning_v2:
             try:
