@@ -11,7 +11,7 @@ logging.basicConfig(format=LOG_FORMAT)
 embedding_model_dict = {
     "bert-base-chinese" : "bert-base-chinese",
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
-    "text2vec": "GanymedeNil/text2vec-large-chinese",
+    "text2vec": "shibing624/text2vec-base-chinese",
     "our_model" : "HongzheBi/MPNet-finetune"
 }
 
