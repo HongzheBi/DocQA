@@ -34,7 +34,7 @@ def get_answer(query, vs_path, history, mode):
                         for i, doc in enumerate(docs)])
             yield history + [[query, response+source]], ""
     else:
-        for response in doc_qa.llm._call(prompt=prompt):
+        for response in doc_qa.llm._call(prompt=query):
             yield history + [[query, response]], ""
 
 
