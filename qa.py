@@ -81,7 +81,7 @@ class DocQA:
         self.topk = VECTOR_SEARCH_TOP_K
 
     # 对文件embdding并持久化
-    def init_knowledge_vector_store(self, filepath, vector_store_path=None):
+    def init_knowledge_vector_store(self, filepath, vector_store_path=None, sentence_size=300):
         loaded_files = []
         failed_files = []
         if not vector_store_path:
@@ -98,7 +98,7 @@ class DocQA:
               file = os.path.split(filepath)[-1]
               try:
                 doc = load_file(filepath)
-                docs = split_paragraph(doc, vector_store_path)
+                docs = split_paragraph(doc, vector_store_path, sentence_size)
                 logger.info(f"{file} 已成功加载")
                 loaded_files.append(filepath)
               except Exception as e:
@@ -111,7 +111,7 @@ class DocQA:
                   fullfilepath = os.path.join(filepath, file)
                   try:
                       doc = load_file(fullfilepath)
-                      docs += split_paragraph(doc, vector_store_path)
+                      docs += split_paragraph(doc, vector_store_path, sentence_size)
                       loaded_files.append(fullfilepath)
                   except Exception as e:
                       logger.error(e)

@@ -16,7 +16,7 @@ embedding_model_dict = {
 }
 
 # Embedding model name
-EMBEDDING_MODEL = "our_model"
+EMBEDDING_MODEL = "text2vec"
 
 # Embedding running device
 EMBEDDING_DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
