@@ -125,7 +125,7 @@ class DocQA:
             for file in filepath:
                 try:
                     doc = load_file(file)
-                    docs += split_paragraph(doc, vector_store_path)
+                    docs += split_paragraph(doc, vector_store_path, sentence_size)
                     logger.info(f"{file} 已成功加载")
                     loaded_files.append(file)
                 except Exception as e:
