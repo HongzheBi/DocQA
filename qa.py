@@ -26,7 +26,7 @@ def load_file(file_name):
 
 
 # 自定义句子分段的方式，保证句子不被截断
-def split_paragraph(text, persist_directory, max_length=300):
+def split_paragraph(text, persist_directory, max_length):
    text = text.replace('\n', '') 
    text = text.replace('\n\n', '') 
    text = re.sub(r'\s+', ' ', text)
@@ -81,7 +81,7 @@ class DocQA:
         self.topk = VECTOR_SEARCH_TOP_K
 
     # 对文件embdding并持久化
-    def init_knowledge_vector_store(self, filepath, vector_store_path=None, sentence_size=300):
+    def init_knowledge_vector_store(self, filepath, sentence_size, vector_store_path=None):
         loaded_files = []
         failed_files = []
         if not vector_store_path:

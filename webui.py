@@ -51,7 +51,7 @@ def get_vector_store(vs_id, files, sentence_size, history):
                 filelist.append(os.path.join(UPLOAD_ROOT_PATH, vs_id, filename))
             logger.info(filelist)
             logger.info(vs_path)
-            vs_path, loaded_files = doc_qa.init_knowledge_vector_store(filelist, vs_path, sentence_size)
+            vs_path, loaded_files = doc_qa.init_knowledge_vector_store(filelist, sentence_size, vs_path)
         if len(loaded_files):
             file_status = f"已添加 {'、'.join([os.path.split(i)[-1] for i in loaded_files])} 内容至知识库，并已加载知识库，请开始提问"
         else:
